@@ -5,14 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MyWindowsMediaPlayer"
         mc:Ignorable="d"
-        Title="MainWindow" Height="1024" Width="1280">
+        Title="MainWindow" Height="1036" Width="1284" WindowStartupLocation="CenterScreen">
     <Grid Background="LightGray">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid Background="Black" Margin="0,0,144,-373">
             <Border BorderBrush="White" Margin="0,0,-1,0" BorderThickness="2" />
-            <MediaElement x:Name="media" Stretch="UniformToFill" LoadedBehavior="Manual" UnloadedBehavior="Manual" />
+            <MediaElement x:Name="media" Stretch="UniformToFill" LoadedBehavior="Manual" UnloadedBehavior="Manual" HorizontalAlignment="Center" />
 
         </Grid>
         <Grid Background="LightGray" Height="49" VerticalAlignment="Top" Margin="0,945,0,-423">
