@@ -9,8 +9,8 @@
     <Grid x:Name="windowsGrid" Background="#1B1B1B">
 
         <Grid x:Name="mediaGrid" Background="Black" Margin="0,0,204,56">
-            <Border BorderBrush="White" Margin="0,0,0,0" BorderThickness="2" />
-            <MediaElement x:Name="media" Stretch="Fill" LoadedBehavior="Manual" UnloadedBehavior="Manual" MediaOpened="media_mediaOpened" Margin="2,2,2,2" MediaEnded="media_mediaEnded" />
+            <Border BorderBrush="White" Margin="0,0,0,0" BorderThickness="1" />
+            <MediaElement x:Name="media" Stretch="Fill" LoadedBehavior="Manual" UnloadedBehavior="Manual" MediaOpened="media_mediaOpened" Margin="0,0,0,0" MediaEnded="media_mediaEnded" />
         </Grid>
 
         <Grid Background="#1B1B1B" Height="49" VerticalAlignment="Bottom" Margin="0,0,0,7" HorizontalAlignment="Right" Width="1272">
@@ -36,13 +36,22 @@
         </Grid>
 
         <Grid x:Name="playlistMenuGrid" Background="#1B1B1B" Margin="0,0,5,56" HorizontalAlignment="Right" Width="194">
-            <ListBox x:Name="playlistBox" HorizontalAlignment="Left" VerticalAlignment="Stretch" DragEnter="playlistBox_DragEnter" Drop="playlistBox_DragDrop" Width="174" Margin="10,322,0,0" MouseDoubleClick="playlistBox_DoubleClick" MouseLeftButtonUp="playlistBox_Select"/>
+            <ListBox x:Name="playlistBox" HorizontalAlignment="Left" VerticalAlignment="Stretch" DragEnter="playlistBox_DragEnter" Drop="playlistBox_DragDrop" Width="174" Margin="10,357,0,0" MouseDoubleClick="playlistBox_DoubleClick" MouseLeftButtonUp="playlistBox_Select"/>
             <Grid HorizontalAlignment="Left" Height="45" Margin="10,10,0,0" VerticalAlignment="Top" Width="174">
                 <Image x:Name="saveButton" HorizontalAlignment="Left" Height="45" VerticalAlignment="Top" Width="45" Source="img/save.png" MouseLeftButtonUp="saveButton_Click"/>
                 <Image x:Name="deletePlaylistButton" HorizontalAlignment="Left" Height="44" Margin="66,1,0,0" VerticalAlignment="Top" Width="46" Source="img/delete.png" MouseLeftButtonUp="deletePlaylistButton_Click"/>
                 <Image x:Name="openPlaylistButton" HorizontalAlignment="Left" Height="44" Margin="130,1,0,0" VerticalAlignment="Top" Width="44" Source="img/folder.png" MouseLeftButtonUp="openPlaylistButton_Click"/>
             </Grid>
-            <Image x:Name="openButton" HorizontalAlignment="Left" Height="48" Margin="77,269,0,0" VerticalAlignment="Top" Width="40" Source="img/add.png" MouseLeftButtonUp="openButton_Click"/>
+            <Image x:Name="openButton" HorizontalAlignment="Left" Height="42" Margin="77,310,0,0" VerticalAlignment="Top" Width="40" Source="img/add.png" MouseLeftButtonUp="openButton_Click"/>
+            <Grid HorizontalAlignment="Left" Height="245" Margin="0,60,0,0" VerticalAlignment="Top" Width="194">
+                <Grid HorizontalAlignment="Left" Height="140" Margin="29,17,0,0" VerticalAlignment="Top" Width="140" Background="Black">
+                    <Border BorderBrush="White" Margin="0,0,0,0" BorderThickness="1" />
+                    <Image x:Name="coverImage" HorizontalAlignment="Left" Height="138" VerticalAlignment="Top" Width="138" Margin="1,1,0,0"/>
+                </Grid>
+                <Label x:Name="artistLabel" Content="" HorizontalContentAlignment="Center" HorizontalAlignment="Left" Margin="10,162,0,0" VerticalAlignment="Top" Width="174" Foreground="White"/>
+                <Label x:Name="titleLabel" Content="" HorizontalAlignment="Left" Margin="10,188,0,0" VerticalAlignment="Top" Width="174" HorizontalContentAlignment="Center" Foreground="White"/>
+                <Label x:Name="albumLabel" Content="" HorizontalAlignment="Left" Margin="10,214,0,0" VerticalAlignment="Top" Width="174" Foreground="White" HorizontalContentAlignment="Center"/>
+            </Grid>
         </Grid>
     </Grid>
 </Window>

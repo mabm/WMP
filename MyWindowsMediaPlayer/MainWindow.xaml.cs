@@ -58,7 +58,12 @@ namespace MyWindowsMediaPlayer
             mediaModel.isPaused = false;
             mediaModel.isStopped = false;
             playButton.Source = new BitmapImage(new Uri(tool.imgPath + "pause.png"));
-            media.Source = new Uri((string)playlist.getSelectedItem().path);
+            PlaylistItem item = playlist.getSelectedItem();
+            media.Source = new Uri(item.path);
+            coverImage.Source = item.coverImage;
+            artistLabel.Content = item.artist;
+            albumLabel.Content = item.album;
+            titleLabel.Content = item.title;
             media.Play();
             mediaModel.timerVideo.Start();
         }
