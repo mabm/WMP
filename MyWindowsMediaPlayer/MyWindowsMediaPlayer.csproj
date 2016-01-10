@@ -34,6 +34,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>media-player-preview.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -56,6 +59,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Models\MediaModel.cs" />
+    <Compile Include="Models\Playlist.cs" />
+    <Compile Include="Models\RepeatManager.cs" />
+    <Compile Include="Models\Serializer.cs" />
     <Compile Include="Models\Tool.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -72,6 +78,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\PlaylistItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -96,7 +103,9 @@
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <None Include="App.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="img\play.png">
@@ -122,6 +131,37 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="img\next.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\save.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\delete.png" />
+    <Resource Include="img\folder.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\media-player-preview.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="media-player-preview.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\shuffle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\repeat-same.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\repeat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\no-shuffle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\no-repeat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\add.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

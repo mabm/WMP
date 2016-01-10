@@ -9,7 +9,7 @@
     <Grid Background="LightGray">
 
         <Grid Background="Black" Margin="0,0,154,56">
-            <
+            <Border
                 BorderBrush="White" Margin="0,0,-1,0" BorderThickness="2" />
             <MediaElement x:Name="media" Stretch="Fill" LoadedBehavior="Manual" UnloadedBehavior="Manual" />
 
