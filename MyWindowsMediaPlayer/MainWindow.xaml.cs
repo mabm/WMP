@@ -176,21 +176,22 @@ namespace MyWindowsMediaPlayer
         private void openButton_Click(object sender, MouseButtonEventArgs e)
         {
             OpenFileDialog ofd;
-
+            
             ofd = new OpenFileDialog();
             ofd.AddExtension = true;
             ofd.DefaultExt = "*.*";
+            ofd.Filter = "Media(*.*)|*.*";
             ofd.ShowDialog();
 
             try
             {
                 playlist.add(new PlaylistItem(ofd.FileName));
+                playlist.selectLast();
+                playMedia();
             } catch
             {
                 new NullReferenceException("Error");
             }
-            playlist.selectLast();
-            playMedia();
         }
 
         private void playlistBox_Select(object sender, MouseButtonEventArgs e)
@@ -240,6 +241,34 @@ namespace MyWindowsMediaPlayer
         private void repeatButton_Click(object sender, MouseButtonEventArgs e)
         {
             repeatButton.Source = new BitmapImage(new Uri(tool.imgPath + playlist.getNextRepeat()));
+        }
+
+        private void saveButton_Click(object sender, MouseButtonEventArgs e)
+        {
+            SaveFileDialog sfd = new SaveFileDialog();
+            sfd.Filter = "XML-File | *.xml";
+            sfd.Title = "Sauvegarder votre playlist";
+            sfd.ShowDialog();
+            if (sfd.FileName != "")
+                Serializer.savePlaylist(playlist.list, sfd.FileName);
+        }
+
+        private void openPlaylistButton_Click(object sender, MouseButtonEventArgs e)
+        {
+            OpenFileDialog ofd;
+
+            ofd = new OpenFileDialog();
+            ofd.AddExtension = true;
+            ofd.Title = "Ouvrir une playlist";
+            ofd.Filter = "XML-File | *.xml";
+            ofd.ShowDialog();
+            if (ofd.FileName != "")
+            {
+                List<PlaylistItem> playlistLoad = Serializer.getPlaylist(ofd.FileName);
+                stopMedia();
+                playlist.changePlaylist(playlistLoad);
+                playMedia();
+            }
         }
     }
 }

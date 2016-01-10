@@ -61,6 +61,7 @@
     <Compile Include="Models\MediaModel.cs" />
     <Compile Include="Models\Playlist.cs" />
     <Compile Include="Models\RepeatManager.cs" />
+    <Compile Include="Models\Serializer.cs" />
     <Compile Include="Models\Tool.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -158,6 +159,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="img\no-repeat.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="img\add.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

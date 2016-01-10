@@ -32,12 +32,13 @@
         </Grid>
 
         <Grid Background="#1B1B1B" Margin="0,0,5,56" HorizontalAlignment="Right" Width="194">
-            <ListBox x:Name="playlistBox" HorizontalAlignment="Left" VerticalAlignment="Stretch" DragEnter="playlistBox_DragEnter" Drop="playlistBox_DragDrop" Width="174" Margin="10,70,0,0" MouseDoubleClick="playlistBox_DoubleClick" MouseLeftButtonUp="playlistBox_Select"/>
+            <ListBox x:Name="playlistBox" HorizontalAlignment="Left" VerticalAlignment="Stretch" DragEnter="playlistBox_DragEnter" Drop="playlistBox_DragDrop" Width="174" Margin="10,322,0,0" MouseDoubleClick="playlistBox_DoubleClick" MouseLeftButtonUp="playlistBox_Select"/>
             <Grid HorizontalAlignment="Left" Height="45" Margin="10,10,0,0" VerticalAlignment="Top" Width="174">
-                <Image x:Name="saveButton" HorizontalAlignment="Left" Height="45" VerticalAlignment="Top" Width="45" Source="img/save.png"/>
+                <Image x:Name="saveButton" HorizontalAlignment="Left" Height="45" VerticalAlignment="Top" Width="45" Source="img/save.png" MouseLeftButtonUp="saveButton_Click"/>
                 <Image x:Name="deletePlaylistButton" HorizontalAlignment="Left" Height="44" Margin="66,1,0,0" VerticalAlignment="Top" Width="46" Source="img/delete.png" MouseLeftButtonUp="deletePlaylistButton_Click"/>
-                <Image x:Name="openButton" HorizontalAlignment="Left" Height="44" Margin="130,1,0,0" VerticalAlignment="Top" Width="44" Source="img/folder.png" MouseLeftButtonUp="openButton_Click"/>
+                <Image x:Name="openPlaylistButton" HorizontalAlignment="Left" Height="44" Margin="130,1,0,0" VerticalAlignment="Top" Width="44" Source="img/folder.png" MouseLeftButtonUp="openPlaylistButton_Click"/>
             </Grid>
+            <Image x:Name="openButton" HorizontalAlignment="Left" Height="48" Margin="77,269,0,0" VerticalAlignment="Top" Width="40" Source="img/add.png" MouseLeftButtonUp="openButton_Click"/>
         </Grid>
     </Grid>
 </Window>

@@ -45,6 +45,7 @@ namespace MyWindowsMediaPlayer.Models
             list.Clear();
             this.nbSelected = 0;
             listBox.Items.Clear();
+            listBox.SelectedIndex = 0;
         }
 
         public PlaylistItem getSelectedItem()
@@ -113,6 +114,16 @@ namespace MyWindowsMediaPlayer.Models
         public int getRepeatMode()
         {
             return (repeatManager.mode);
+        }
+
+        public void changePlaylist(List<PlaylistItem> playlistLoad)
+        {
+            this.clear();
+            this.list = playlistLoad;
+            foreach (var music in list)
+            {
+                this.listBox.Items.Add(music.name);
+            }
         }
     }
 }
