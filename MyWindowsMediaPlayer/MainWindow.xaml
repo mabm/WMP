@@ -6,16 +6,16 @@
         xmlns:local="clr-namespace:MyWindowsMediaPlayer"
         mc:Ignorable="d"
         Title="Gemades Player" Height="1024" Width="1280">
-    <Grid Background="#1B1B1B">
+    <Grid x:Name="windowsGrid" Background="#1B1B1B">
 
-        <Grid Background="Black" Margin="0,0,204,56">
+        <Grid x:Name="mediaGrid" Background="Black" Margin="0,0,204,56">
             <Border BorderBrush="White" Margin="0,0,0,0" BorderThickness="2" />
             <MediaElement x:Name="media" Stretch="Fill" LoadedBehavior="Manual" UnloadedBehavior="Manual" MediaOpened="media_mediaOpened" Margin="2,2,2,2" MediaEnded="media_mediaEnded" />
         </Grid>
 
         <Grid Background="#1B1B1B" Height="49" VerticalAlignment="Bottom" Margin="0,0,0,7" HorizontalAlignment="Right" Width="1272">
-            <Grid Margin="0,0,417,0" HorizontalAlignment="Left">
-                <Slider x:Name="timeSlider" HorizontalAlignment="Left" VerticalAlignment="Top" Width="700" Margin="10,17,0,0" ValueChanged="timeSlider_ValueChanged" Background="#00000000" Foreground="#FFC4C4C4"/>
+            <Grid HorizontalAlignment="Left" Width="744">
+                <Slider x:Name="timeSlider" HorizontalAlignment="Left" VerticalAlignment="Top" Width="700" Margin="34,17,0,0" ValueChanged="timeSlider_ValueChanged" Background="#00000000" Foreground="#FFC4C4C4"/>
             </Grid>
             <Grid Margin="959,0,0,0">
                 <Slider x:Name="volumeSlider" HorizontalAlignment="Left"  Width="60" Margin="41,16,0,12" ValueChanged="volumeSlider_ValueChanged"/>
@@ -25,13 +25,17 @@
                 <Image x:Name="prevButton" HorizontalAlignment="Left" Height="30" Margin="126,10,0,0" VerticalAlignment="Top" Width="28" Source="img/prev.png" MouseLeftButtonUp="prevButton_Click" MouseLeftButtonDown="prevButton_DoubleClick"/>
                 <Image x:Name="stopButton" HorizontalAlignment="Left" Margin="220,12,0,0" Width="36" Source="img/stop.png" Height="27" VerticalAlignment="Top" MouseLeftButtonUp="stopButton_click"/>
             </Grid>
-            <Grid HorizontalAlignment="Left" Height="48" Margin="860,1,0,0" VerticalAlignment="Top" Width="94">
+            <Grid HorizontalAlignment="Left" Height="48" Margin="818,1,0,0" VerticalAlignment="Top" Width="136">
                 <Image x:Name="shuffleButton" HorizontalAlignment="Left" Height="30" Margin="56,10,0,0" VerticalAlignment="Top" Width="28" Source="img/no-shuffle.png" MouseLeftButtonUp="shuffleButton_Click"/>
                 <Image x:Name="repeatButton" HorizontalAlignment="Left" Height="28" Margin="10,10,0,0" VerticalAlignment="Top" Width="30" Source="img/no-repeat.png" MouseLeftButtonUp="repeatButton_Click"/>
+                <Image x:Name="fullscreenButton" HorizontalAlignment="Left" Height="28" Margin="99,10,0,0" VerticalAlignment="Top" Width="27" Source="img/maximize.png" MouseLeftButtonUp="fullscreenButton_Click"/>
+            </Grid>
+            <Grid HorizontalAlignment="Left" Height="48" Margin="749,1,0,0" VerticalAlignment="Top" Width="69">
+                <Label x:Name="timeLabel" Foreground="White" Content="00:00" HorizontalAlignment="Left" Margin="4,7,0,0" VerticalAlignment="Top" Height="34" Width="55" Background="{x:Null}" FontSize="18.667"/>
             </Grid>
         </Grid>
 
-        <Grid Background="#1B1B1B" Margin="0,0,5,56" HorizontalAlignment="Right" Width="194">
+        <Grid x:Name="playlistMenuGrid" Background="#1B1B1B" Margin="0,0,5,56" HorizontalAlignment="Right" Width="194">
             <ListBox x:Name="playlistBox" HorizontalAlignment="Left" VerticalAlignment="Stretch" DragEnter="playlistBox_DragEnter" Drop="playlistBox_DragDrop" Width="174" Margin="10,322,0,0" MouseDoubleClick="playlistBox_DoubleClick" MouseLeftButtonUp="playlistBox_Select"/>
             <Grid HorizontalAlignment="Left" Height="45" Margin="10,10,0,0" VerticalAlignment="Top" Width="174">
                 <Image x:Name="saveButton" HorizontalAlignment="Left" Height="45" VerticalAlignment="Top" Width="45" Source="img/save.png" MouseLeftButtonUp="saveButton_Click"/>

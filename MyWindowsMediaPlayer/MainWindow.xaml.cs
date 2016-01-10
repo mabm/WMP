@@ -26,13 +26,11 @@ namespace MyWindowsMediaPlayer
         private Playlist playlist;
         private Tool tool;
 
-        public object ImageExtensions { get; private set; }
-
         public MainWindow()
         {
             InitializeComponent();
             playlist = new Playlist(playlistBox);
-            mediaModel = new MediaModel();
+            mediaModel = new MediaModel(mediaGrid.Margin);
             tool = new Tool();
             mediaModel.timerVideo.Tick += new EventHandler(timer_tick);
             volumeSlider.Maximum = 1;
@@ -107,6 +105,7 @@ namespace MyWindowsMediaPlayer
         private void timer_tick(Object sender, EventArgs e)
         {
             timeSlider.Value = media.Position.TotalSeconds;
+            timeLabel.Content = ((int)media.Position.TotalMinutes).ToString() + ":" + (((int)media.Position.TotalSeconds) % 60).ToString();
         }
 
         private void timeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
@@ -268,6 +267,30 @@ namespace MyWindowsMediaPlayer
                 stopMedia();
                 playlist.changePlaylist(playlistLoad);
                 playMedia();
+            }
+        }
+
+        private void fullscreenButton_Click(object sender, MouseButtonEventArgs e)
+        {
+            if (!mediaModel.isFullscreen)
+            {
+                playlistMenuGrid.Visibility = Visibility.Hidden;
+                Thickness newMediaMarginFullscreen = mediaGrid.Margin;
+                newMediaMarginFullscreen.Right = windowsGrid.Margin.Right;
+                mediaGrid.Margin = newMediaMarginFullscreen;
+                this.WindowStyle = WindowStyle.None;
+                this.WindowState = WindowState.Maximized;
+                mediaModel.isFullscreen = true;
+                fullscreenButton.Source = new BitmapImage(new Uri(tool.imgPath + "minimize.png"));
+            }
+            else
+            {
+                playlistMenuGrid.Visibility = Visibility.Visible;
+                mediaGrid.Margin = mediaModel.margin;
+                this.WindowStyle = WindowStyle.SingleBorderWindow;
+                this.WindowState = WindowState.Normal;
+                mediaModel.isFullscreen = false;
+                fullscreenButton.Source = new BitmapImage(new Uri(tool.imgPath + "maximize.png"));
             }
         }
     }
