@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Threading;
 
 namespace MyWindowsMediaPlayer
 {
@@ -12,6 +13,7 @@ namespace MyWindowsMediaPlayer
         public bool isStopped { get; set; }
         public bool isPaused { get; set; }
         public double volume { get; set; }
+        public DispatcherTimer timerVideo;
 
         public MediaModel()
         {
@@ -19,6 +21,8 @@ namespace MyWindowsMediaPlayer
             this.isStopped = true;
             this.isPaused = false;
             this.volume = 0;
+            this.timerVideo = new DispatcherTimer();
+            timerVideo.Interval = TimeSpan.FromSeconds(1);
         }
     }
 }

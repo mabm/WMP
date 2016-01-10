@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using MyWindowsMediaPlayer.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -21,14 +23,20 @@ namespace MyWindowsMediaPlayer
     public partial class MainWindow : Window
     {
         private MediaModel mediaModel;
+        private Playlist playlist;
         private Tool tool;
+
+        public object ImageExtensions { get; private set; }
 
         public MainWindow()
         {
             InitializeComponent();
+            playlist = new Playlist(playlistBox);
             mediaModel = new MediaModel();
-            playlistBox.AllowDrop = true;
             tool = new Tool();
+            mediaModel.timerVideo.Tick += new EventHandler(timer_tick);
+            volumeSlider.Maximum = 1;
+            volumeSlider.Value = 1;
         }
 
         private void playlistBox_DragEnter(object sender, DragEventArgs e)
@@ -36,16 +44,25 @@ namespace MyWindowsMediaPlayer
             e.Effects = DragDropEffects.All;
         }
 
-        private void playlistBox_DragLeave(object sender, DragEventArgs e)
-        {
-
-        }
 
         private void playlistBox_DragDrop(object sender, DragEventArgs e)
         {
             string[] files = (string[])e.Data.GetData(DataFormats.FileDrop, false);
             foreach (string file in files)
-                playlistBox.Items.Add(file);
+                playlist.add(new PlaylistItem(file));                
+        }
+
+        private void playMedia()
+        {
+            if (playlist.isEmpty())
+                return;
+            timeSlider.Value = 0;
+            mediaModel.isPaused = false;
+            mediaModel.isStopped = false;
+            playButton.Source = new BitmapImage(new Uri(tool.imgPath + "pause.png"));
+            media.Source = new Uri((string)playlist.getSelectedItem().path);
+            media.Play();
+            mediaModel.timerVideo.Start();
         }
 
         private void playButton_Click(object sender, MouseButtonEventArgs e)
@@ -53,13 +70,7 @@ namespace MyWindowsMediaPlayer
             if (playlistBox.Items.IsEmpty)
                 return;
             if (mediaModel.isStopped == true)
-            {
-                mediaModel.isPaused = false;
-                mediaModel.isStopped = false;
-                playButton.Source = new BitmapImage(new Uri(tool.imgPath + "pause.png"));
-                media.Source = new Uri((string)playlistBox.Items.GetItemAt(0));
-                media.Play();
-            }
+                playMedia();
             else if (mediaModel.isPaused == true)
             {
                 mediaModel.isPaused = false;
@@ -80,6 +91,7 @@ namespace MyWindowsMediaPlayer
             {
                 mediaModel.volume = this.media.Volume;
                 this.media.Volume = 0;
+                this.volumeSlider.Value = 0;
                 mediaModel.isMuted = true;
                 speakerButton.Source = new BitmapImage(new Uri(tool.imgPath + "mute.png"));
             }
@@ -88,7 +100,146 @@ namespace MyWindowsMediaPlayer
                 this.media.Volume = mediaModel.volume;
                 mediaModel.isMuted = false;
                 speakerButton.Source = new BitmapImage(new Uri(tool.imgPath + "speaker.png"));
+                this.volumeSlider.Value = mediaModel.volume;
             }
+        }
+
+        private void timer_tick(Object sender, EventArgs e)
+        {
+            timeSlider.Value = media.Position.TotalSeconds;
+        }
+
+        private void timeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            TimeSpan ts = TimeSpan.FromSeconds(e.NewValue);
+            this.media.Position = ts;
+        }
+
+        private void media_mediaOpened(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                if (this.media.NaturalDuration.HasTimeSpan)
+                {
+                    TimeSpan ts = TimeSpan.FromSeconds(this.media.NaturalDuration.TimeSpan.TotalSeconds);
+                    timeSlider.Maximum = ts.TotalSeconds;
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Le contenu que vous souhaiter ouvrir n'est pas compatible avec notre logiciel");
+            }
+          
+        }
+
+        private void volumeSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            this.media.Volume = volumeSlider.Value;
+            if (mediaModel.isMuted && volumeSlider.Value != 0)
+            {
+                mediaModel.isMuted = false;
+                speakerButton.Source = new BitmapImage(new Uri(tool.imgPath + "speaker.png"));
+            }
+        }
+
+        private void playlistBox_DoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            playlist.updateSelection();
+            playMedia();
+        }
+
+        private void stopMedia()
+        {
+            this.media.Stop();
+            mediaModel.isStopped = true;
+            mediaModel.isPaused = false;
+            playButton.Source = new BitmapImage(new Uri(tool.imgPath + "play.png"));
+        }
+
+        private void stopButton_click(object sender, MouseButtonEventArgs e)
+        {
+            stopMedia();
+        }
+
+        private void nextButton_Click(object sender, MouseButtonEventArgs e)
+        {
+            playlist.selectNextItem();
+            playMedia();
+        }
+
+        private void deletePlaylistButton_Click(object sender, MouseButtonEventArgs e)
+        {
+            stopMedia();
+            playlist.clear();
+        }
+
+        private void openButton_Click(object sender, MouseButtonEventArgs e)
+        {
+            OpenFileDialog ofd;
+
+            ofd = new OpenFileDialog();
+            ofd.AddExtension = true;
+            ofd.DefaultExt = "*.*";
+            ofd.ShowDialog();
+
+            try
+            {
+                playlist.add(new PlaylistItem(ofd.FileName));
+            } catch
+            {
+                new NullReferenceException("Error");
+            }
+            playlist.selectLast();
+            playMedia();
+        }
+
+        private void playlistBox_Select(object sender, MouseButtonEventArgs e)
+        {
+            playlist.updateSelection();
+        }
+
+        private void media_mediaEnded(object sender, RoutedEventArgs e)
+        {
+            if (playlist.isFinish() && playlist.getRepeatMode() > 0)
+            {
+                playlist.selectNextItem();
+                playMedia();
+            }
+            else if (!playlist.isFinish())
+            {
+                playlist.selectNextItem();
+                playMedia();
+            }
+        }
+
+        private void prevButton_Click(object sender, MouseButtonEventArgs e)
+        {
+            playMedia();
+        }
+
+        private void prevButton_DoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            if (e.ChangedButton == MouseButton.Left && e.ClickCount == 2)
+                playlist.selectPrevItem();
+        }
+
+        private void shuffleButton_Click(object sender, MouseButtonEventArgs e)
+        {
+            if (playlist.isRandom)
+            {
+                playlist.isRandom = false;
+                shuffleButton.Source = new BitmapImage(new Uri(tool.imgPath + "no-shuffle.png"));
+            }
+            else
+            {
+                playlist.isRandom = true;
+                shuffleButton.Source = new BitmapImage(new Uri(tool.imgPath + "shuffle.png"));
+            }
+        }
+
+        private void repeatButton_Click(object sender, MouseButtonEventArgs e)
+        {
+            repeatButton.Source = new BitmapImage(new Uri(tool.imgPath + playlist.getNextRepeat()));
         }
     }
 }
